@@ -27,8 +27,10 @@ public class InvokingController implements EnvironmentAware {
 	
 	private RestTemplate restTemplate;
 	
+	
 	@RequestMapping(method=RequestMethod.GET)
 	public String invoke() {
+		logger.info("api-key: " + apiKey + " url: " + endpoint);
 		//use rest to invoke the other service
 		restTemplate = new RestTemplate();
 		//build the request
@@ -44,9 +46,7 @@ public class InvokingController implements EnvironmentAware {
 
 	@Override
 	public void setEnvironment(Environment environment) {
-		logger.info(environment);
-		
-		this.apiKey = environment.getProperty("vcap.application");
+		this.apiKey = environment.getProperty("vcap.services.test-instance.credentials.api-key");
 	}
 	
 }
